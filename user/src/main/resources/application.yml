@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: yummy-calls-user
+  cloud:
+    consul:
+      host: ${CONSUL_DISCOVERY_HOST:localhost}
+      port: ${CONSUL_DISCOVERY_PORT:8500}
+      config:
+        enabled: false
+      discovery:
+        enabled: true
+        prefer-ip-address: true
+        instanceId: ${spring.application.name}-${random.int[1,99]}
+        lower-case-service-id: true
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 10s
+
+server:
+  port: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
